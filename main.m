@@ -17,6 +17,8 @@ load('../data/age_data.mat');
 load('../data/data.mat');
 
 %% Preprocess Data
+a = 2+2;
+
 
 
 
