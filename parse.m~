@@ -22,10 +22,12 @@ load('../data/data.mat');
 is_new = 1;
 subject_id = data.id(1);
 idx = 1;
-d = [];
+counter = 1;
+is_new_trial = 1;
+trial = data.muscle_number(1);
 
 %% Parse
-for j = 1:length(data)
+for j = 1:length(data.id)
     
     id = data.id(j);
     index = find(age_data.id == id);
@@ -34,24 +36,43 @@ for j = 1:length(data)
     force = data.force(j);
     skinfat_thickness = data.skinfat_thickness(j);
     muscle_thickness = data.muscle_thickness(j);
+    trial_number = data.muscle_number(j);
     flag = data.flag(j);
+    
+    if id < 2000
+        is_control = 0;
+    else
+        is_control = 1;
+    end
     
     if id == subject_id
         is_new = 0;
     else
         is_new = 1;
         subject_id = id;
+        idx = idx + 1;
+        counter = 1;
     end
     
-    if is_new == 1 || j == 1
-        d(idx) = Subject(age, visit, flag, is_control);
-        d(idx).muscle_thickness = muscle_thickness;
-        d(idx).skinfat_thickness = skinfat_thickness;
-        d(idx).force = force;
+    if trial_number == trial
+        is_new_trial = 0;
     else
-        d(idx).muscle_thickness = [d(idx).muscle_thickness muscle_thickness];
-        d(idx).skinfat_thickness = [d(idx).skinfat_thickness skinfat_thickness];
-        d(idx).force = [d(idx).force force];
+        counter = 1;
+        trial = trial_number;
+    end
+    
+    
+    if is_new == 1 || j == 1
+        d(idx) = Subject(id, age, visit_number, flag, is_control);
+        d(idx).muscle_thickness(1,trial_number) = muscle_thickness;
+        d(idx).skinfat_thickness(1,trial_number) = skinfat_thickness;
+        d(idx).force(1,trial_number) = force;
+        counter = counter + 1;
+    else
+        d(idx).muscle_thickness(counter,trial_number) = muscle_thickness;
+        d(idx).skinfat_thickness(counter,trial_number) = skinfat_thickness;
+        d(idx).force(counter,trial_number) = force;
+        counter = counter + 1;
     end
 end
     

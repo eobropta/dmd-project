@@ -16,7 +16,8 @@ classdef Subject < handle
     
     methods
         %% Constructor
-        function d = Subject(age, visit, flag, is_control)
+        function d = Subject(id, age, visit, flag, is_control)
+            d.id = id;
             d.age = age;
             d.visit = visit;
             d.flag = flag;
@@ -28,7 +29,7 @@ classdef Subject < handle
                 error('Trial number invalid. Only three trials')
             end
             
-            plot(obj.muscle_thickness(:,trial), obj.force);
+            scatter(obj.muscle_thickness(:,trial), obj.force(:,trial));
             title('Force v. length');
         end
         %% Fitting 

@@ -13,11 +13,9 @@ close all
 % --- code/
 % --- data/
 
-load('../data/age_data.mat');
-load('../data/data.mat');
+load('../data/subject_data.mat');
 
 %% Preprocess Data
-a = 2+2;
 
 
 
