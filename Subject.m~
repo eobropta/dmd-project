@@ -32,13 +32,19 @@ classdef Subject < handle
             scatter(obj.muscle_thickness(:,trial), obj.force(:,trial));
             title('Force v. length');
         end
+        %% Fitting 
+        function beta = fitOgden(obj, beta0, trial)
+            disp('Hello World');
+            % some nlinfit function call goes here
+            beta = nlinfit(X,Y,modelfun,beta0);
+        end
         %% Calculate Stretch Ratio
         function x = lambda(obj, force)
             % force determine which length to normalize to
             [I,J] = find(obj.force == 2);
             
-            for i = 1:length(I)
-                x(:,J(i)) = obj.muscle_thickness(:,J(i)) / obj.muscle_thickness(I(i),J(i));
+            for i = 1:I
+                x(obj.muscle_thickness
             end
         end
             
