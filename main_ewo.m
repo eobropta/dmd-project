@@ -18,7 +18,7 @@ close all
 load('../data/subject_data.mat');
 
 %% Subjects 
-subject = [1 3 5];
+subject = [20];
 
 % specify trial number 
 % note: we want to actually average these at some point
@@ -41,15 +41,21 @@ for i = 1:length(subject)
     % non-linear regression
     beta = nlinfit(X,Y,@odgen,beta0);
     
+    x_data = linspace(min(X),max(X),100);
     % calculate data
-    y_data = odgen(beta,X);
+    y_data = odgen(beta,x_data);
     
     % plot data and fit
     figure
-    d(3).plot(trial)
+    scatter(X,Y,'*b')
     hold on
-    scatter(X,y_data,'r')
-    legend('data','fit')
+    plot(x_data,y_data,'-r')
+    legend('data',['\mu=' num2str(beta(1)) ' \alpha=' num2str(beta(2))])
+    
+    title(['Odgen Model - Subject' num2str(d(subject(i)).id)])
+    xlabel('\lambda')
+    ylabel('Force (N)')
+    
 end
 
 
